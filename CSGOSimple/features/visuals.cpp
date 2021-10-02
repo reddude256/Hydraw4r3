@@ -534,22 +534,25 @@ public:
 void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 	float zvelo = floor(g_LocalPlayer->m_vecVelocity().z);
 
-	if (unpred_z >= -7 || zvelo != -7 || unpred_flags & FL_ONGROUND || g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP)
+	if (unpred_z >= -7 || !g_LocalPlayer || zvelo != -7 || unpred_flags & FL_ONGROUND || g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP)
 		edgebugged = false;
 	else
 	{
 		edgebugged = true;
-
 		edgebugs++;
+
+		if (!g_EngineClient->IsInGame()) edgebugs = 0;
 
 		auto g_ChatElement = FindHudElement<CHudChat>("CHudChat");
 
 		if (g_Options.ebdetection) {
-			g_ChatElement->ChatPrintf(0, 0, std::string("").
-				append(" \x04").
-				append("$ hydraw4r3 $").
-				append(" \x01").
-				append("| edgebugged").c_str());
+			g_ChatElement->ChatPrintf(0, 0, (std::string(
+				" \x04"
+				"$ hydraw4r3 $"
+				" \x01"
+				"| edgebugged [")
+				+ std::to_string(edgebugs)
+				+ std::string("]")).c_str());
 			g_LocalPlayer->m_flHealthShotBoost() = g_GlobalVars->curtime + 0.5f;
 			g_VGuiSurface->PlaySound_("survival\\money_collect_01.wav");
 		}

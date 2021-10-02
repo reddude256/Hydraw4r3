@@ -228,6 +228,7 @@ void Options::SetupMisc()
 	SetupValue(g_Options.thirdperson, "Misc", "Third person");
 	SetupValue(g_Options.thirdperson_key, "Misc", "Third person key");
 	SetupValue(g_Options.thirdperson_dist, "Misc", "Third person distance");
+	SetupValue(g_Options.aspectratio, "Visuals", "aspectratio");
 	SetupValue(g_Options.playerModelCT, "Misc", "playerModelCT");
 	SetupValue(g_Options.playerModelT, "Misc", "playerModelT");
 }

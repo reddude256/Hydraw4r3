@@ -49,4 +49,11 @@ public:
 public:
 	void AddToDrawList();
 	void Render();
+	void acpect(float numbero)
+	{
+		ConVar* yessoftware = g_CVar->FindVar("r_aspectratio");
+		*(int*)((DWORD)&yessoftware->m_fnChangeCallbacks + 0xC) = 0;
+		yessoftware->SetValue(numbero);
+	}
+
 };

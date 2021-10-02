@@ -203,6 +203,8 @@ public:
 	bool thirdperson = false;
 	float thirdperson_dist = 0.f;
 	int thirdperson_key;
+	bool aspectratio;
+	float aspectvalue;
 	bool spectator_list = false;
 	int AutoStafe_key;
 	bool autostrafe = false;

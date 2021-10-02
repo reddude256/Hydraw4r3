@@ -371,8 +371,11 @@ void Menu::Render()
 						ImGui::Checkbox("No smoke", &g_Options.no_smoke);
 						ImGui::Checkbox("Sniper crosshair", &g_Options.sniper_xhair);
 						ImGui::Checkbox("Third Person", &g_Options.thirdperson); ImGui::SameLine(group_w - 50); ImGui::Hotkey(" ", &g_Options.thirdperson_key);
-						if (g_Options.thirdperson)
+							if (g_Options.thirdperson)
 							ImGui::SliderFloat("Distance", &g_Options.thirdperson_dist, 0.f, 250.f);
+						ImGui::Checkbox("Aspect Ratio Changer", &g_Options.aspectratio);
+							if (g_Options.aspectratio)
+							ImGui::SliderFloat("Aspect Ratio Changer", &g_Options.aspectvalue, 0.f, 10.f);
 					}
 					ImGui::EndGroup();
 				}

@@ -341,6 +341,9 @@ namespace Hooks {
 		static auto panelId = vgui::VPANEL{ 0 };
 		static auto oPaintTraverse = vguipanel_hook.get_original<decltype(&hkPaintTraverse)>(index::PaintTraverse);
 
+		if (g_Options.aspectratio)
+			Visuals::Get().acpect(g_Options.aspectvalue);
+
 		oPaintTraverse(g_VGuiPanel, edx, panel, forceRepaint, allowForce);
 
 		if (!panelId) {

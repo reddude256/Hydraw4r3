@@ -249,7 +249,6 @@ public:
 	virtual int                   IsSkyboxVisibleFromPoint(const Vector &vecPoint) = 0;
 	virtual const char*           GetMapEntitiesString() = 0;
 	virtual bool                  IsInEditMode(void) = 0; // 100
-	virtual float                 GetScreenAspectRatio(int viewportWidth, int viewportHeight) = 0;
 	virtual bool                  REMOVED_SteamRefreshLogin(const char *password, bool isSecure) = 0;
 	virtual bool                  REMOVED_SteamProcessCall(bool & finished) = 0;
 	virtual unsigned int          GetEngineBuildNumber() = 0; // engines build
@@ -298,6 +297,7 @@ public:
 	virtual void                  RecordDemoCustomData(pfnDemoCustomDataCallback pCallback, const void *pData, size_t iDataLength) = 0;
 	virtual void                  SetPitchScale(float flPitchScale) = 0;
 	virtual float                 GetPitchScale(void) = 0;
+	virtual float				  GetScreenAspectRatio(int viewportWidth, int viewportHeight) = 0;
 	virtual bool                  LoadFilmmaker() = 0;
 	virtual void                  UnloadFilmmaker() = 0;
 	virtual void                  SetLeafFlag(int nLeafIndex, int nFlagBits) = 0;
