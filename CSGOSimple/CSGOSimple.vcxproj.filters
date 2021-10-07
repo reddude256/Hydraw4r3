@@ -158,6 +158,9 @@
     <ClCompile Include="log.cpp">
       <Filter>Source Files\features</Filter>
     </ClCompile>
+    <ClCompile Include="features\blockbot.cpp">
+      <Filter>Source Files\features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="valve_sdk\misc\BaseHandle.hpp">
@@ -453,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="log.h">
       <Filter>Source Files\features</Filter>
+    </ClInclude>
+    <ClInclude Include="features\blockbot.hpp">
+      <Filter>Header Files\features</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

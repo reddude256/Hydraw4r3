@@ -100,6 +100,7 @@
     <ClCompile Include="features\aimbot.cpp" />
     <ClCompile Include="features\autowall.cpp" />
     <ClCompile Include="features\bhop.cpp" />
+    <ClCompile Include="features\blockbot.cpp" />
     <ClCompile Include="features\chams.cpp" />
     <ClCompile Include="features\glow.cpp" />
     <ClCompile Include="features\item_definitions.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="custom_elements.h" />
     <ClInclude Include="features\aimbot.hpp" />
     <ClInclude Include="features\autowall.hpp" />
+    <ClInclude Include="features\blockbot.hpp" />
     <ClInclude Include="features\item_definitions.h" />
     <ClInclude Include="features\kit_parser.h" />
     <ClInclude Include="features\parser.h" />

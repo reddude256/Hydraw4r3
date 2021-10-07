@@ -11,6 +11,7 @@
 #include "byte.h"
 
 ImFont* g_pDefaultFont;
+ImFont* g_Verdana;
 ImFont* g_SpectatorListFont;
 
 ImFont* gilroybold = nullptr;
@@ -10491,6 +10492,9 @@ void render::GetFonts() {
 	// esp font
 	g_pDefaultFont = io.Fonts->AddFontFromMemoryTTF((void*)gilroyfont, sizeof(gilroyfont), 13, &font_config, ranges);
 
+	// watermark/velocity font
+	g_Verdana = ImGui::GetIO().Fonts->AddFontFromFileTTF(u8"C:\\Windows\\Fonts\\verdanab.ttf", 30.f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+
 	// menu font & shits
 	iconfont = io.Fonts->AddFontFromMemoryTTF((void*)icon, sizeof(icon), 30, &font_config, ranges);
 }
@@ -10507,7 +10511,7 @@ void render::BeginScene() {
 
 
 	if (g_Options.misc_watermark)
-		render::Get().RenderText("hydraw4r3", 10, 5, 18.f, Color::White, false, true, g_pDefaultFont);
+		render::Get().RenderText("[$] hydraw4r3", 10, 5, 18.f, Color::White, false, true, g_Verdana);
 
 	if (g_EngineClient->IsInGame() && g_LocalPlayer)
 		Visuals::Get().AddToDrawList();

@@ -200,6 +200,8 @@ public:
 	bool autoaccept = false;
 	bool no_flash = false;
 	bool no_smoke = false;
+	bool blockbot = false;
+	int bbkey{ 0 };
 	bool thirdperson = false;
 	float thirdperson_dist = 0.f;
 	int thirdperson_key;

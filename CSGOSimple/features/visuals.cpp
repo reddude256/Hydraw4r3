@@ -402,9 +402,9 @@ void speed()
 
 		//	else
 		if (g_Options.outline)
-			render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, Color(0, 0, 0, 255), false, false, g_pDefaultFont);
+			render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, Color(0, 0, 0, 255), false, false, g_Verdana);
 
-		render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_pDefaultFont);
+		render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_Verdana);
 
 		if (!(local_player->m_fFlags() & FL_ONGROUND)) {
 			//if (lastjump >= 270)
@@ -414,11 +414,29 @@ void speed()
 			if (lastjump >= 100 && g_Options.lastjump)
 			{
 				if (g_Options.lastjumpoutline)
-					render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, Color(0, 0, 0), false, false, g_pDefaultFont);
+					render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, Color(0, 0, 0), false, false, g_Verdana);
 
-				render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_pDefaultFont);
+				render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_Verdana);
 			}
 		}
+	}
+	static std::vector<float> velData(120, 0);
+	float currentVelocity = sqrt(speed.x * speed.x + speed.y * speed.y);
+
+	velData.erase(velData.begin());
+	velData.push_back(currentVelocity);
+
+	for (auto i = 0; i < velData.size() - 1; i++)
+	{
+		int cur = velData.at(i);
+		int next = velData.at(i + 1);
+
+		render::Get().RenderLine<float>(
+			screenWidth / 2 + (velData.size() * 5 / 2) - (i - 1) * 5.f,
+			screenHeight / 1.15 - (std::clamp(cur, 0, 450) + .2f),
+			screenWidth / 2 + (velData.size() * 5 / 2) - i * 5.f,
+			screenHeight / 1.15 - (std::clamp(next, 0, 450) * .2f), Color(255, 255, 255, 255)
+		);
 	}
 }
 

@@ -396,7 +396,8 @@ void Menu::Render()
 							ImGui::Checkbox("Edge bug detect", &g_Options.ebdetection);
 						ImGui::Checkbox("Jump bug", &g_Options.jump_bug); ImGui::SameLine(group_w - 50);          ImGui::Hotkey("   ", &g_Options.jump_bug_key);
 						ImGui::Checkbox("Edge jump", &g_Options.edgejump.enabled); ImGui::SameLine(group_w - 50); ImGui::Hotkey("    ", &g_Options.edgejump.hotkey);
-						ImGui::Checkbox("Duck in Air", &g_Options.edgejump.edge_jump_duck_in_air);
+						ImGui::Checkbox("LJ helper", &g_Options.edgejump.edge_jump_duck_in_air);
+						ImGui::Checkbox("Blockbot", &g_Options.blockbot); ImGui::SameLine(group_w - 50); ImGui::Hotkey("     ", &g_Options.bbkey);
 						ImGui::Checkbox("Velocity", &g_Options.Velocity);
 						ImGui::SameLine(group_w - 22);
 						ImGuiEx::ColorEdit4("##Velocity", &g_Options.Velocitycol);

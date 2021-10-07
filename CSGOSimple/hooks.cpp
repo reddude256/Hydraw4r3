@@ -10,7 +10,9 @@
 #include "features/chams.hpp"
 #include "features/visuals.hpp"
 #include "features/glow.hpp"
+#include "features/blockbot.hpp"
 #include "features/skins.h"
+#include <xstring>
 
 #pragma intrinsic(_ReturnAddress)  
 
@@ -316,6 +318,13 @@ namespace Hooks {
 
 		verified->m_cmd = *cmd;
 		verified->m_crc = cmd->GetChecksum();
+
+		if (g_Options.blockbot && GetAsyncKeyState(g_Options.bbkey)) {
+			g_BlockBot->cmove(cmd);
+			g_BlockBot->draw();
+			verified->m_cmd = *cmd;
+			verified->m_crc = cmd->GetChecksum();
+		}
 	}
 	//--------------------------------------------------------------------------------
 	__declspec(naked) void __fastcall hkCreateMove_Proxy(void* _this, int, int sequence_number, float input_sample_frametime, bool active)

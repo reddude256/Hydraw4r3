@@ -18,6 +18,7 @@
 
 extern ImFont* g_pDefaultFont;
 extern ImFont* g_pDefaultFont;
+extern ImFont* g_Verdana;
 extern ImFont* g_SpectatorListFont;
 
 extern ImFont* iconfont;

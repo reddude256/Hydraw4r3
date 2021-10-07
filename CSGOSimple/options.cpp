@@ -223,6 +223,8 @@ void Options::SetupMisc()
 	SetupValue(g_Options.jump_bug_key, "Misc", "jump_bug_key");
 	SetupValue(g_Options.edgejump.enabled, "Misc", "Edge jump");
 	SetupValue(g_Options.edgejump.hotkey, "Misc", "edgejump_key");
+	SetupValue(g_Options.blockbot, "Misc", "Blockbot");
+	SetupValue(g_Options.bbkey, "Misc", "bbkey");
 	SetupValue(g_Options.edgejump.edge_jump_duck_in_air, "Misc", "Duck in Air");
 	SetupValue(g_Options.sniper_xhair, "Misc", "Sniper crosshair");
 	SetupValue(g_Options.thirdperson, "Misc", "Third person");
