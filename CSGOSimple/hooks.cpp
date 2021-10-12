@@ -115,6 +115,35 @@ namespace Hooks {
 	//--------------------------------------------------------------------------------
 	long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 	{
+		if (g_Options.custom_viewmodel) {
+			static auto viewmodel_fov = g_CVar->FindVar("viewmodel_fov");
+			static auto viewmodel_offset_x = g_CVar->FindVar("viewmodel_offset_x");
+			static auto viewmodel_offset_y = g_CVar->FindVar("viewmodel_offset_y");
+			static auto viewmodel_offset_z = g_CVar->FindVar("viewmodel_offset_z");
+			viewmodel_fov->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_fov->SetValue(g_Options.viewmodel_fov);
+			viewmodel_offset_x->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_x->SetValue(g_Options.viewmodel_offset_x);
+			viewmodel_offset_y->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_y->SetValue(g_Options.viewmodel_offset_y);
+			viewmodel_offset_z->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_z->SetValue(g_Options.viewmodel_offset_z);
+		}
+		else {
+			static auto viewmodel_fov = g_CVar->FindVar("viewmodel_fov");
+			static auto viewmodel_offset_x = g_CVar->FindVar("viewmodel_offset_x");
+			static auto viewmodel_offset_y = g_CVar->FindVar("viewmodel_offset_y");
+			static auto viewmodel_offset_z = g_CVar->FindVar("viewmodel_offset_z");
+			viewmodel_fov->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_fov->SetValue(68);
+			viewmodel_offset_x->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_x->SetValue(2);
+			viewmodel_offset_y->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_y->SetValue(2);
+			viewmodel_offset_z->m_fnChangeCallbacks.m_Size = 0;
+			viewmodel_offset_z->SetValue(-2);
+		}
+
 		static auto oEndScene = direct3d_hook.get_original<decltype(&hkEndScene)>(index::EndScene);
 
 		DWORD colorwrite, srgbwrite;
@@ -203,6 +232,7 @@ namespace Hooks {
 		float eb = floor(g_LocalPlayer->m_vecVelocity().z);
 
 		prediction->StartPrediction(cmd);
+		Visuals::Get().GatherMovementData();
 		Visuals::Get().ebdetection(eb, flags);
 
 		g_Legitbot->Run(cmd);
@@ -305,6 +335,158 @@ namespace Hooks {
 
 			if (!(g_LocalPlayer->m_fFlags() & FL_ONGROUND) && g_Options.edgejump.edge_jump_duck_in_air && !(cmd->buttons |= IN_DUCK))
 				cmd->buttons |= IN_DUCK;
+		}
+
+		if (g_Options.skyboxchanger) {
+
+			static auto r_3dsky = g_CVar->FindVar(("r_3dsky"));
+
+			r_3dsky->SetValue("0");
+
+
+			static auto sv_skyname = g_CVar->FindVar(("sv_skyname"));
+
+			// csgo\materials\skybox
+			if (g_Options.skybox == 0)
+			{
+				sv_skyname->SetValue("cs_tibet");
+
+
+			}
+			if (g_Options.skybox == 1)
+			{
+				sv_skyname->SetValue("cs_baggage_skybox_");
+
+			}
+			if (g_Options.skybox == 2)
+			{
+				sv_skyname->SetValue("embassy");
+
+			}
+			if (g_Options.skybox == 3)
+			{
+				sv_skyname->SetValue("italy");
+
+			}
+			if (g_Options.skybox == 4)
+			{
+				sv_skyname->SetValue("jungle");
+
+			}
+			if (g_Options.skybox == 5)
+			{
+				sv_skyname->SetValue("office");
+			}
+			if (g_Options.skybox == 6)
+			{
+				sv_skyname->SetValue("sky_cs15_daylight01_hdr");
+			}
+			if (g_Options.skybox == 7)
+			{
+				sv_skyname->SetValue("vertigoblue_hdr");
+			}
+			if (g_Options.skybox == 8)
+			{
+				sv_skyname->SetValue("sky_cs15_daylight02_hdr");
+			}
+			if (g_Options.skybox == 9)
+			{
+				sv_skyname->SetValue("vertigo");
+			}
+			if (g_Options.skybox == 10)
+			{
+				sv_skyname->SetValue("sky_day02_05_hdr");
+			}
+			if (g_Options.skybox == 11)
+			{
+				sv_skyname->SetValue("nukeblank");
+			}
+			if (g_Options.skybox == 12)
+			{
+				sv_skyname->SetValue("sky_venice");
+			}
+			if (g_Options.skybox == 13)
+			{
+				sv_skyname->SetValue("sky_cs15_daylight03_hdr");
+			}
+			if (g_Options.skybox == 14)
+			{
+				sv_skyname->SetValue("sky_cs15_daylight04_hdr");
+			}
+			if (g_Options.skybox == 15)
+			{
+				sv_skyname->SetValue("sky_csgo_cloudy01");
+			}
+			if (g_Options.skybox == 16)
+			{
+				sv_skyname->SetValue("sky_csgo_night02");
+			}
+			if (g_Options.skybox == 17)
+			{
+				sv_skyname->SetValue("sky_csgo_night02b");
+			}
+			if (g_Options.skybox == 18)
+			{
+				sv_skyname->SetValue("sky_csgo_night_flat");
+			}
+			if (g_Options.skybox == 19)
+			{
+				sv_skyname->SetValue("sky_dust");
+			}
+			if (g_Options.skybox == 20)
+			{
+				sv_skyname->SetValue("vietnam");
+			}
+			if (g_Options.skybox == 21)
+			{
+				sv_skyname->SetValue("amethyst");
+			}
+			if (g_Options.skybox == 22)
+			{
+				sv_skyname->SetValue("sky_descent");
+			}
+			if (g_Options.skybox == 23)
+			{
+				sv_skyname->SetValue("clear_night_sky");
+			}
+			if (g_Options.skybox == 24)
+			{
+				sv_skyname->SetValue("otherworld");
+			}
+			if (g_Options.skybox == 25)
+			{
+				sv_skyname->SetValue("cloudynight");
+			}
+			if (g_Options.skybox == 26)
+			{
+				sv_skyname->SetValue("dreamyocean");
+			}
+			if (g_Options.skybox == 27)
+			{
+				sv_skyname->SetValue("grimmnight");
+			}
+			if (g_Options.skybox == 28)
+			{
+				sv_skyname->SetValue("sky051");
+			}
+			if (g_Options.skybox == 29)
+			{
+				sv_skyname->SetValue("sky081");
+			}
+			if (g_Options.skybox == 30)
+			{
+				sv_skyname->SetValue("sky091");
+			}
+			if (g_Options.skybox == 31)
+			{
+				sv_skyname->SetValue("sky561");
+			}
+		}
+
+		else {
+			static auto sv_skyname = g_CVar->FindVar(("sv_skyname"));
+
+			sv_skyname->SetValue(0);
 		}
 
 		// https://github.com/spirthack/CSGOSimple/issues/69
@@ -571,7 +753,7 @@ namespace Hooks {
 	void RecvProxy(const CRecvProxyData* pData, void* entity, void* output)
 	{
 		static auto ofunc = sequence_hook->get_original_function();
-		/*
+		
 		if (g_LocalPlayer && g_LocalPlayer->IsAlive()) {
 			const auto proxy_data = const_cast<CRecvProxyData*>(pData);
 			const auto view_model = static_cast<C_BaseViewModel*>(entity);
@@ -593,7 +775,7 @@ namespace Hooks {
 				}
 			}
 
-		}*/
+		}
 
 		ofunc(pData, entity, output);
 	}

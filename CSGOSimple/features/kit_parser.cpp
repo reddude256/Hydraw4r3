@@ -275,7 +275,8 @@ auto initialize_kits() -> void
 		std::string("leather_handwraps"),
 		std::string("motorcycle_gloves"),
 		std::string("specialist_gloves"),
-		std::string("studded_hydra_gloves")
+		std::string("studded_hydra_gloves"),
+		std::string("studded_brokenfang_gloves")
 	};
 
 	for (const auto& child : weapon_skin_combo->children)

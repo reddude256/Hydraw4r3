@@ -402,7 +402,7 @@ void speed()
 
 		//	else
 		if (g_Options.outline)
-			render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, Color(0, 0, 0, 255), false, false, g_Verdana);
+			render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 47, screenHeight - 99, 27.f, Color(0, 0, 0, 255), false, false, g_Verdana);
 
 		render::Get().RenderText(std::to_string(intspeed), screenWidth / 2 - 48, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_Verdana);
 
@@ -414,30 +414,72 @@ void speed()
 			if (lastjump >= 100 && g_Options.lastjump)
 			{
 				if (g_Options.lastjumpoutline)
-					render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, Color(0, 0, 0), false, false, g_Verdana);
+					render::Get().RenderText(drawvel2, screenWidth / 2 + 3, screenHeight - 99, 27.f, Color(0, 0, 0, 255), false, false, g_Verdana);
 
 				render::Get().RenderText(drawvel2, screenWidth / 2 + 2, screenHeight - 100, 27.f, g_Options.Velocitycol, false, false, g_Verdana);
 			}
 		}
 	}
-	static std::vector<float> velData(120, 0);
-	float currentVelocity = sqrt(speed.x * speed.x + speed.y * speed.y);
+}
 
-	velData.erase(velData.begin());
-	velData.push_back(currentVelocity);
-
-	for (auto i = 0; i < velData.size() - 1; i++)
+void Visuals::GatherMovementData()
+{
+	if (!g_Options.bVelocityGraph)
 	{
-		int cur = velData.at(i);
-		int next = velData.at(i + 1);
-
-		render::Get().RenderLine<float>(
-			screenWidth / 2 + (velData.size() * 5 / 2) - (i - 1) * 5.f,
-			screenHeight / 1.15 - (std::clamp(cur, 0, 450) + .2f),
-			screenWidth / 2 + (velData.size() * 5 / 2) - i * 5.f,
-			screenHeight / 1.15 - (std::clamp(next, 0, 450) * .2f), Color(255, 255, 255, 255)
-		);
+		if (!vecMovementData.empty())
+			vecMovementData.clear();
+		return;
 	}
+
+	vecMovementData.resize(g_Options.iVelocityGraphWidth);
+
+	vecMovementData.insert(
+		vecMovementData.begin(),
+		MovementData_t{
+			std::round(g_LocalPlayer->m_vecVelocity().Length2D()),
+			(bool)(g_LocalPlayer->m_fFlags() & FL_ONGROUND)
+		}
+	);
+}
+
+void Visuals::PaintMovementData()
+{
+	if (!g_LocalPlayer)
+		return;
+
+	static float flSpeed, flOldGroundSpeed, flLastGroundSpeed, flFrameTime;
+	static int iLastFlags;
+
+	const float flVelocity = std::round(g_LocalPlayer->m_vecVelocity().Length2D());
+	const int iFlags = g_LocalPlayer->m_fFlags();
+	int vecDisplaySizex, vecDisplaySizey;
+	g_EngineClient->GetScreenSize(vecDisplaySizex, vecDisplaySizey);
+
+	int iIdealY = vecDisplaySizey / 2 + g_Options.iYAdditive;
+	int iIdealX = vecDisplaySizex / 2 - 30;
+	if (g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP) {}
+	else if (g_Options.bVelocityGraph && g_LocalPlayer->IsAlive() && vecMovementData.size() > 2)
+	{
+		for (int i = 0; i < vecMovementData.size() - 1; i++)
+		{
+			const MovementData_t currentData = vecMovementData[i];
+			const MovementData_t nextData = vecMovementData[i + 1];
+
+			const bool bLanded = !currentData.bOnGround && nextData.bOnGround;
+
+			const int iCurrentSpeed = std::clamp((int)currentData.flvelocity, 0, 450);
+			const int iNextSpeed = std::clamp((int)nextData.flvelocity, 0, 450);
+
+			const RECT linePos = {
+				iIdealX - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - ((signed int)i - 1) * 5 * 0.175f,
+				iIdealY - 50 - (iCurrentSpeed / g_Options.flVelocityGraphCompression) /2,
+				iIdealX - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - (signed int)i * 5 * 0.175f,
+				iIdealY - 50 - (iNextSpeed / g_Options.flVelocityGraphCompression) /2
+			};
+
+			render::Get().RenderLine(linePos.left, linePos.top, linePos.right, linePos.bottom, g_Options.colorgraph, g_Options.Graphtrickness);
+		}
+	};
 }
 
 void Visuals::ThirdPerson() {
@@ -452,7 +494,7 @@ void Visuals::ThirdPerson() {
 			g_Input->m_fCameraInThirdPerson = true;
 		}
 
-		float dist = g_Options.thirdperson_dist;
+		int dist = g_Options.thirdperson_dist;
 
 		QAngle* view = g_LocalPlayer->GetVAngles();
 		trace_t tr;
@@ -534,6 +576,7 @@ void Visuals::AddToDrawList() {
 			RenderItemEsp(entity);
 	}
 	speed();
+	PaintMovementData();
 }
 
 
@@ -552,7 +595,10 @@ public:
 void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 	float zvelo = floor(g_LocalPlayer->m_vecVelocity().z);
 
-	if (unpred_z >= -7 || !g_LocalPlayer || zvelo != -7 || unpred_flags & FL_ONGROUND || g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP)
+	if (!g_LocalPlayer->IsAlive()) return;
+	if (!g_LocalPlayer) return;
+
+	if (unpred_z >= -7 || zvelo != -7 || unpred_flags & FL_ONGROUND || g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP)
 		edgebugged = false;
 	else
 	{

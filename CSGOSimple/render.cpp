@@ -10482,7 +10482,7 @@ void render::GetFonts() {
 		0,
 	};
 	// menu font
-	ImGui::GetIO().Fonts->AddFontFromMemoryTTF((void*)gilroyfont, sizeof(gilroyfont), 13, &font_config, ranges);
+	ImGui::GetIO().Fonts->AddFontDefault(NULL);
 
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -10490,13 +10490,13 @@ void render::GetFonts() {
 
 
 	// esp font
-	g_pDefaultFont = io.Fonts->AddFontFromMemoryTTF((void*)gilroyfont, sizeof(gilroyfont), 13, &font_config, ranges);
+	g_pDefaultFont = ImGui::GetIO().Fonts->AddFontFromFileTTF(u8"C:\\Windows\\Fonts\\calibri.ttf", 25.f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
 
 	// watermark/velocity font
 	g_Verdana = ImGui::GetIO().Fonts->AddFontFromFileTTF(u8"C:\\Windows\\Fonts\\verdanab.ttf", 30.f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
 
 	// menu font & shits
-	iconfont = io.Fonts->AddFontFromMemoryTTF((void*)icon, sizeof(icon), 30, &font_config, ranges);
+	//iconfont = io.Fonts->AddFontFromMemoryTTF((void*)icon, sizeof(icon), 30, &font_config, ranges);
 }
 
 void render::ClearDrawList() {

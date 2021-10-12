@@ -191,6 +191,12 @@ public:
 	int playerModelT{ 0 };
 	int playerModelCT{ 0 };
 
+	bool bVelocityGraph = false;
+	int iVelocityGraphWidth = 400;
+	int iVelocityGraphHeight = 10;
+	int iYAdditive = 479;
+	float flVelocityGraphCompression = 1.0f;
+	float Graphtrickness = 1.0f;
 	bool misc_showranks = false;
 	bool misc_watermark = false;
 	bool Velocity = false;
@@ -203,13 +209,20 @@ public:
 	bool blockbot = false;
 	int bbkey{ 0 };
 	bool thirdperson = false;
-	float thirdperson_dist = 0.f;
+	int thirdperson_dist = 0;
 	int thirdperson_key;
 	bool aspectratio;
-	float aspectvalue;
+	float aspectvalue = 0.f;
 	bool spectator_list = false;
 	int AutoStafe_key;
 	bool autostrafe = false;
+	bool custom_viewmodel = false;
+	int viewmodel_fov{ 68 };
+	int viewmodel_offset_x{ 2 };
+	int viewmodel_offset_y{ 2 };
+	int viewmodel_offset_z{ -2 };
+	bool skyboxchanger = false;
+	int skybox;
 
 	struct
 	{
@@ -229,7 +242,7 @@ public:
 	//
 	// CONFIG
 	//
-	Color menu_color = { 255, 0, 0 };
+	Color menu_color = { 69, 69, 138 };
 
 	// 
 	// COLORS
@@ -264,6 +277,7 @@ public:
 	Color color_chams_arms_occluded = { 0, 0, 0 };
 	Color color_watermark = { 0, 0, 0 };
 	Color player_enemy_visible_shine = { 0, 0, 0 };
+	Color colorgraph = { 0, 0, 0 };
 
 
 protected:

@@ -932,6 +932,7 @@ struct ImGuiContext
     ImGuiTextBuffer         LogClipboard;                       // Accumulation buffer when log to clipboard. This is pointer so our GImGui static constructor doesn't call heap allocators.
     int                     LogStartDepth;
     int                     LogAutoExpandMaxDepth;
+    float                   LogLinePosY;
 
     // Misc
     float                   FramerateSecPerFrame[120];          // Calculate estimate of framerate for user over the last 2 seconds.
@@ -1053,7 +1054,7 @@ struct ImGuiContext
     }
 };
 
-////-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // ImGuiWindow
 //-----------------------------------------------------------------------------
 
@@ -1088,6 +1089,11 @@ struct IMGUI_API ImGuiWindowTempData
     ImGuiStorage*           StateStorage;
     ImGuiLayoutType         LayoutType;
     ImGuiLayoutType         ParentLayoutType;       // Layout type of parent window at the time of Begin()
+    int                     FocusCounterAll;        // Counter for focus/tabbing system. Start at -1 and increase as assigned via FocusableItemRegister() (FIXME-NAV: Needs redesign)
+    int                     FocusCounterTab;        // (same, but only count widgets which you can Tab through)
+
+
+
 
     // We store the current settings outside of the vectors to increase memory locality (reduce cache misses). The vectors are rarely modified. Also it allows us to not heap allocate for short-lived windows which are not using those settings.
     ImGuiItemFlags          ItemFlags;              // == ItemFlagsStack.back() [empty == ImGuiItemFlags_Default]
@@ -1142,7 +1148,7 @@ struct IMGUI_API ImGuiWindow
     char*                   Name;
     ImGuiID                 ID;                                 // == ImHash(Name)
     ImGuiWindowFlags        Flags;                              // See enum ImGuiWindowFlags_
-    ImVec2                  Pos;                                // osition (always rounded-up to nearest pixel)
+    ImVec2                  Pos;                                // Position (always rounded-up to nearest pixel)
     ImVec2                  Size;                               // Current size (==SizeFull or collapsed title bar size)
     ImVec2                  SizeFull;                           // Size when non collapsed
     ImVec2                  SizeFullAtLastBegin;                // Copy of SizeFull at the end of Begin. This is the reference value we'll use on the next frame to decide if we need scrollbars.

@@ -7,7 +7,17 @@
 #include "../valve_sdk/csgostructs.hpp"
 
 
+struct MovementData_t
+{
+	MovementData_t() = default;
+	MovementData_t(float _flVelocity, bool _bOnGround) {
+		flvelocity = _flVelocity;
+		bOnGround = _bOnGround;
+	}
 
+	float flvelocity;
+	bool bOnGround;
+};
 
 class Visuals : public Singleton<Visuals>
 {
@@ -46,6 +56,9 @@ public:
 	void RenderItemEsp(C_BaseEntity* ent);
 	void ThirdPerson();
 	void ebdetection(float unpred_z, int unpred_flags);
+	void GatherMovementData();
+	void PaintMovementData();
+	std::vector<MovementData_t> vecMovementData;
 public:
 	void AddToDrawList();
 	void Render();

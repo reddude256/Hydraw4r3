@@ -202,11 +202,13 @@ void Options::SetupVisuals()
 
 void Options::SetupMisc()
 {
-	SetupColor(g_Options.Velocitycol, "Velocity");
 	SetupValue(g_Options.misc_showranks, "Misc", "Rank reveal");
 	SetupValue(g_Options.spectator_list, "Misc", "Spectator list");
 	SetupValue(g_Options.misc_watermark, "Misc", "Watermark");
 	SetupValue(g_Options.Velocity, "Misc", "Velocity");
+	SetupColor(g_Options.Velocitycol, "Velocity");
+	SetupValue(g_Options.bVelocityGraph, "Misc", "Velocity graph");
+	SetupColor(g_Options.colorgraph, "Graph color");
 	SetupValue(g_Options.outline, "Misc", "Outline");
 	SetupValue(g_Options.lastjump, "Misc", "Last jump");
 	SetupValue(g_Options.lastjumpoutline, "Misc", "Last jump outline");
@@ -231,8 +233,16 @@ void Options::SetupMisc()
 	SetupValue(g_Options.thirdperson_key, "Misc", "Third person key");
 	SetupValue(g_Options.thirdperson_dist, "Misc", "Third person distance");
 	SetupValue(g_Options.aspectratio, "Visuals", "aspectratio");
+	SetupValue(g_Options.aspectvalue, "Visuals", "aspectvalue");
 	SetupValue(g_Options.playerModelCT, "Misc", "playerModelCT");
 	SetupValue(g_Options.playerModelT, "Misc", "playerModelT");
+	SetupValue(g_Options.custom_viewmodel, "Misc", "Custom viewmodel");
+	SetupValue(g_Options.viewmodel_fov, "Misc", "Viewmodel FOV");
+	SetupValue(g_Options.viewmodel_offset_x, "Misc", "Offset X");
+	SetupValue(g_Options.viewmodel_offset_y, "Misc", "Offset Y");
+	SetupValue(g_Options.viewmodel_offset_z, "Misc", "Offset Z");
+	SetupValue(g_Options.skyboxchanger, "Misc", "Skybox changer");
+	SetupValue(g_Options.skybox, "Misc", "Skybox value");
 }
 
 void Options::Initialize()
