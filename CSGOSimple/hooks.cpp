@@ -327,6 +327,74 @@ namespace Hooks {
 		else g_Options.misc_bhop2 = true;
 
 		if ((g_LocalPlayer->m_fFlags() & FL_ONGROUND) && g_LocalPlayer->IsAlive()) if (g_Options.edge_bug && GetAsyncKeyState(g_Options.edge_bug_key)) cmd->buttons = 4;
+
+		if (g_Options.smart_eb && GetAsyncKeyState(g_Options.edge_bug_key)) {
+
+			static auto prediction = new PredictionSystem();
+
+			if (!g_Options.edge_bug)
+			{
+				return;
+			}
+
+
+
+			if (GetAsyncKeyState(g_Options.edge_bug_key))
+			{
+				g_CVar->FindVar("sv_min_jump_landing_sound")->SetValue("63464578");
+
+			}
+			else
+			{
+				g_CVar->FindVar("sv_min_jump_landing_sound")->SetValue("260");
+			}
+
+			static bool edgebugging = false;
+			static int edgebugging_tick = 0;
+
+			if (!edgebugging) {
+				int flags = g_LocalPlayer->m_fFlags();
+
+				float z_velocity = floor(g_LocalPlayer->m_vecVelocity().z);
+
+				for (int i = 0; i < 64; i++) {
+					// Run prediction
+					prediction->StartPrediction(cmd);
+					prediction->StartPrediction(cmd);
+					{
+
+						// Check for edgebug
+						if (z_velocity < -7 && floor(g_LocalPlayer->m_vecVelocity().z) == -7 && !(flags & FL_ONGROUND) && g_LocalPlayer->m_nMoveType() != MOVETYPE_NOCLIP) {
+							edgebugging = true;
+							edgebugging_tick = cmd->tick_count + i;
+							break;
+						}
+						else {
+							z_velocity = floor(g_LocalPlayer->m_vecVelocity().z);
+							flags = g_LocalPlayer->m_fFlags();
+						}
+					}
+
+					// End prediciton
+					prediction->EndPrediction();
+					prediction->EndPrediction();
+				}
+			}
+			else {
+				// Lock the movement however you want
+				cmd->sidemove = 0.f;
+				cmd->forwardmove = 0.f;
+				cmd->upmove = 0.f;
+				cmd->mousedx = 0.f;
+
+				// Check if edgebug over
+				if (cmd->tick_count > edgebugging_tick) {
+					edgebugging = false;
+					edgebugging_tick = 0;
+				}
+			}
+		}
+
 		prediction->EndPrediction();
 		if (g_Options.edgejump.enabled && GetAsyncKeyState(g_Options.edgejump.hotkey))
 		{

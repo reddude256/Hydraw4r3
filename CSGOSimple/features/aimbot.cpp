@@ -38,6 +38,8 @@ bool CLegitbot::IsEnabled(CUserCmd* cmd)
 		return false;
 
 	return (cmd->buttons & IN_ATTACK);
+
+	return (cmd->buttons & IN_ATTACK) || (settings.autofire.enabled && GetAsyncKeyState(settings.autofire.hotkey));
 }
 
 void CLegitbot::Smooth(QAngle currentAngle, QAngle aimAngle, QAngle& angle)
@@ -256,6 +258,9 @@ void CLegitbot::Run(CUserCmd* cmd)
 
 		if (shot_delay)
 			cmd->buttons &= ~IN_ATTACK;
+
+		if (settings.autofire.enabled && GetAsyncKeyState(settings.autofire.hotkey))
+			cmd->buttons |= IN_ATTACK;
 	}
 
 	current_punch = g_LocalPlayer->m_aimPunchAngle();

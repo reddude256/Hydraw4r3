@@ -158,6 +158,9 @@ void Options::SetupWeapons()
 			SetupValue(aimbot->rcs.y, key, "RCS Y");
 
 			SetupValue(aimbot->backtrack.ticks, key, "Backtrack Ticks");
+
+			SetupValue(aimbot->autofire.enabled, key, "AutoFire Enabled");
+			SetupValue(aimbot->autofire.hotkey, key, "AutoFire Hotkey");
 		}
 	}
 	for (auto& [key, val] : k_weapon_names) {
@@ -209,6 +212,7 @@ void Options::SetupMisc()
 	SetupColor(g_Options.Velocitycol, "Velocity");
 	SetupValue(g_Options.bVelocityGraph, "Misc", "Velocity graph");
 	SetupColor(g_Options.colorgraph, "Graph color");
+	SetupValue(g_Options.iYAdditive, "Misc", "graph Y");
 	SetupValue(g_Options.outline, "Misc", "Outline");
 	SetupValue(g_Options.lastjump, "Misc", "Last jump");
 	SetupValue(g_Options.lastjumpoutline, "Misc", "Last jump outline");
@@ -220,7 +224,11 @@ void Options::SetupMisc()
 	SetupValue(g_Options.AutoStafe_key, "Misc", "AutoStafe_key");
 	SetupValue(g_Options.edge_bug, "Misc", "Edge bug");
 	SetupValue(g_Options.edge_bug_key, "Misc", "edge_bug_key");
+	SetupValue(g_Options.smart_eb, "Misc", "Smart edge bug");
 	SetupValue(g_Options.ebdetection, "Misc", "Edge bug detect");
+	SetupValue(g_Options.eb_detection_chat, "Misc", "Eb chat");
+	SetupValue(g_Options.eb_detection_effect, "Misc", "Eb effect");
+	SetupValue(g_Options.eb_detection_sound, "Misc", "Eb sound");
 	SetupValue(g_Options.jump_bug, "Misc", "jump_bug");
 	SetupValue(g_Options.jump_bug_key, "Misc", "jump_bug_key");
 	SetupValue(g_Options.edgejump.enabled, "Misc", "Edge jump");

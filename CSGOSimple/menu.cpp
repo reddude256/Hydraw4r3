@@ -252,7 +252,7 @@ void SpectatorList()
 void Menu::Render()
 {
 	ImGui::GetIO().MouseDrawCursor = _visible;
-	//SpectatorList();
+	SpectatorList();
 	if (!_visible)
 		return;
 	auto flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | NULL | NULL | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | NULL | NULL | NULL;
@@ -279,7 +279,7 @@ void Menu::Render()
 			tab = 1;
 
 		ImGui::SetCursorPos({ 15 + 250 + 20,17 });
-		if (Tab("Movement", { 125,35 }, tab == 2))
+		if (Tab("Misc", { 125,35 }, tab == 2))
 			tab = 2;
 
 		ImGui::SetCursorPos({ 15 + 375 + 30,17 });
@@ -594,6 +594,9 @@ void Menu::Render()
 				ImGui::Checkbox("Velocity graph", &g_Options.bVelocityGraph);
 				ImGui::SameLine(group_w - 20);
 				ImGuiEx::ColorEdit4("##Graph", &g_Options.colorgraph);
+				if (&g_Options.bVelocityGraph) {
+					ImGui::SliderInt("graph Y add", &g_Options.iYAdditive, -500, 500);
+				};
 				//ImGui::Checkbox("Show keypresses", &g_Options.esp_show_keypresses); //ImGui::SameLine(group_w - 20); ImGuiEx::ColorEdit4("##Keypresses", &g_Options.Keypressescol);
 				//ImGui::Checkbox("Indicators", &g_Options.esp_show_indicators); ImGui::SameLine(group_w - 20); ImGuiEx::ColorEdit4("##Indicators", &g_Options.Indicatorscol);
 				ImGui::Checkbox("Auto accept", &g_Options.autoaccept);
@@ -613,22 +616,19 @@ void Menu::Render()
 
 				ImGui::Checkbox("Bunny hop", &g_Options.misc_bhop);
 				//ImGui::Checkbox("Infinite duck", &g_Options.misc_infinite_duck);
-				//ImGui::Checkbox("Auto strafe", &g_Options.autostrafe); ImGui::SameLine();     ImGui::Hotkey(" ", &g_Options.AutoStafe_key);
+				ImGui::Checkbox("Auto strafe", &g_Options.autostrafe); ImGui::SameLine(group_w - 50);     ImGui::Hotkey(" ", &g_Options.AutoStafe_key);
 				ImGui::Checkbox("Edge bug", &g_Options.edge_bug); ImGui::SameLine(group_w - 50);          ImGui::Hotkey("  ", &g_Options.edge_bug_key);
 				ImGui::Spacing();
-				//if (ImGui::BeginCombo("##Edge bug", "Edge bug", ImGuiComboFlags_NoArrowButton))
-				//{
+				if (ImGui::BeginCombo("##Edge bug", "Edge bug", ImGuiComboFlags_NoArrowButton))
+				{
 				//	ImGui::Selectable("Eb velocity booster", &g_Options.autostrafe, ImGuiSelectableFlags_DontClosePopups);
-				//	ImGui::Selectable("Smart eb (test)", &g_Options.smart_eb, ImGuiSelectableFlags_DontClosePopups);
+					ImGui::Selectable("Smart eb (test)", &g_Options.smart_eb, ImGuiSelectableFlags_DontClosePopups);
 				//	ImGui::Selectable("Fake edge bug", &g_Options.localeb, ImGuiSelectableFlags_DontClosePopups);
-				//
-				//	ImGui::EndCombo();
-				//}
+				
+					ImGui::EndCombo();
+				}
 				ImGui::Checkbox("Show eb detection", &g_Options.ebdetection);
-				/*if (g_Options.ebdetection) {
-					ImGui::Checkbox("Chat", &g_Options.eb_detection_chat);
-					ImGui::Checkbox("Effect", &g_Options.eb_detection_effect);
-					ImGui::Checkbox("Sound", &g_Options.eb_detection_sound);
+				if (g_Options.ebdetection) {
 					if (ImGui::BeginCombo("###Decetion", "Eb detection", ImGuiComboFlags_NoArrowButton))
 					{
 						ImGui::Selectable("Chat", &g_Options.eb_detection_chat, ImGuiSelectableFlags_DontClosePopups);
@@ -637,8 +637,7 @@ void Menu::Render()
 
 						ImGui::EndCombo();
 					}
-
-				}*/
+				}
 				ImGui::Checkbox("Jump bug", &g_Options.jump_bug); ImGui::SameLine(group_w - 50);          ImGui::Hotkey("   ", &g_Options.jump_bug_key);
 				ImGui::Checkbox("Edge jump", &g_Options.edgejump.enabled); ImGui::SameLine(group_w - 50); ImGui::Hotkey("    ", &g_Options.edgejump.hotkey);
 				if (g_Options.edgejump.enabled)

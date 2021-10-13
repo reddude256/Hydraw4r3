@@ -194,7 +194,7 @@ public:
 	bool bVelocityGraph = false;
 	int iVelocityGraphWidth = 400;
 	int iVelocityGraphHeight = 10;
-	int iYAdditive = 479;
+	int iYAdditive = 0;
 	float flVelocityGraphCompression = 1.0f;
 	float Graphtrickness = 1.0f;
 	bool misc_showranks = false;
@@ -233,11 +233,15 @@ public:
 	} edgejump;
 	bool edge_bug;
 	int edge_bug_key;
-	bool ebdetection;
+	bool ebdetection = false;
+	bool eb_detection_chat = false;
+	bool eb_detection_effect = false;
+	bool eb_detection_sound = false;
 	bool jump_bug = false;
 	int jump_bug_key;
 	int glow_enemies_type;
 	bool sniper_xhair = false;
+	bool smart_eb = false;
 
 	//
 	// CONFIG

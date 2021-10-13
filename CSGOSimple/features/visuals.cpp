@@ -455,7 +455,7 @@ void Visuals::PaintMovementData()
 	int vecDisplaySizex, vecDisplaySizey;
 	g_EngineClient->GetScreenSize(vecDisplaySizex, vecDisplaySizey);
 
-	int iIdealY = vecDisplaySizey / 2 + g_Options.iYAdditive;
+	int iIdealY = vecDisplaySizey / 2 + 479 + g_Options.iYAdditive;
 	int iIdealX = vecDisplaySizex / 2 - 30;
 	if (g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP) {}
 	else if (g_Options.bVelocityGraph && g_LocalPlayer->IsAlive() && vecMovementData.size() > 2)
@@ -610,6 +610,8 @@ void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 		auto g_ChatElement = FindHudElement<CHudChat>("CHudChat");
 
 		if (g_Options.ebdetection) {
+			if (g_Options.eb_detection_chat)
+			{
 			g_ChatElement->ChatPrintf(0, 0, (std::string(
 				" \x04"
 				"$ hydraw4r3 $"
@@ -617,8 +619,15 @@ void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 				"| edgebugged [")
 				+ std::to_string(edgebugs)
 				+ std::string("]")).c_str());
+			}
+			if (g_Options.eb_detection_effect)
+			{
 			g_LocalPlayer->m_flHealthShotBoost() = g_GlobalVars->curtime + 0.5f;
+			}
+			if (g_Options.eb_detection_sound)
+			{
 			g_VGuiSurface->PlaySound_("survival\\money_collect_01.wav");
+			}
 		}
 
 	}
