@@ -596,8 +596,8 @@ void Menu::Render()
 				ImGuiEx::ColorEdit4("##Graph", &g_Options.colorgraph);
 				if (g_Options.bVelocityGraph) {
 					ImGui::Spacing();
-					ImGui::SliderInt("graph Y add", &g_Options.iYAdditive, -500, 500);
-					ImGui::SliderInt("graph X add", &g_Options.iXAdditive, -500, 500);
+					ImGui::SliderInt("graph Y add", &g_Options.iYAdditive, -500, 500, "%i");
+					ImGui::SliderInt("graph X add", &g_Options.iXAdditive, -500, 500, "%i");
 				};
 				//ImGui::Checkbox("Show keypresses", &g_Options.esp_show_keypresses); //ImGui::SameLine(group_w - 20); ImGuiEx::ColorEdit4("##Keypresses", &g_Options.Keypressescol);
 				//ImGui::Checkbox("Indicators", &g_Options.esp_show_indicators); ImGui::SameLine(group_w - 20); ImGuiEx::ColorEdit4("##Indicators", &g_Options.Indicatorscol);

@@ -455,8 +455,6 @@ void Visuals::PaintMovementData()
 	int vecDisplaySizex, vecDisplaySizey;
 	g_EngineClient->GetScreenSize(vecDisplaySizex, vecDisplaySizey);
 
-	int iIdealY = vecDisplaySizey / 2 + g_Options.iYAdditive;
-	int iIdealX = vecDisplaySizex / 2 + g_Options.iXAdditive;
 	if (g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP) {}
 	else if (g_Options.bVelocityGraph && g_LocalPlayer->IsAlive() && vecMovementData.size() > 2)
 	{
@@ -471,10 +469,10 @@ void Visuals::PaintMovementData()
 			const int iNextSpeed = std::clamp((int)nextData.flvelocity, 0, 450);
 
 			const RECT linePos = {
-				iIdealX - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - ((signed int)i - 1) * 5 * 0.175f,
-				iIdealY - 50 - (iCurrentSpeed / g_Options.flVelocityGraphCompression) /2,
-				iIdealX - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - (signed int)i * 5 * 0.175f,
-				iIdealY - 50 - (iNextSpeed / g_Options.flVelocityGraphCompression) /2
+				vecDisplaySizey / 2 + g_Options.iXAdditive - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - ((signed int)i - 1) * 5 * 0.175f,
+				vecDisplaySizey / 2 + g_Options.iYAdditive - 50 - (iCurrentSpeed / g_Options.flVelocityGraphCompression) /2,
+				vecDisplaySizey / 2 + g_Options.iXAdditive - ((g_Options.iVelocityGraphHeight) / 2) + ((g_Options.iVelocityGraphWidth) / 2) - 8 - (signed int)i * 5 * 0.175f,
+				vecDisplaySizey / 2 + g_Options.iYAdditive - 50 - (iNextSpeed / g_Options.flVelocityGraphCompression) /2
 			};
 
 			render::Get().RenderLine(linePos.left, linePos.top, linePos.right, linePos.bottom, g_Options.colorgraph, g_Options.Graphtrickness);
@@ -595,7 +593,8 @@ public:
 void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 	float zvelo = floor(g_LocalPlayer->m_vecVelocity().z);
 
-	if (!g_LocalPlayer->IsAlive()) return;
+	if (!g_LocalPlayer->IsAlive()) edgebugs = 0; return;
+	if (!g_EngineClient->IsInGame()) edgebugs = 0; return;
 	if (!g_LocalPlayer) return;
 
 	if (unpred_z >= -7 || zvelo != -7 || unpred_flags & FL_ONGROUND || g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP)
@@ -605,7 +604,6 @@ void Visuals::ebdetection(float unpred_z, int unpred_flags) {
 		edgebugged = true;
 		edgebugs++;
 
-		if (!g_EngineClient->IsInGame()) edgebugs = 0;
 
 		auto g_ChatElement = FindHudElement<CHudChat>("CHudChat");
 
