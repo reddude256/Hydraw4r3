@@ -195,6 +195,7 @@ public:
 	int iVelocityGraphWidth = 400;
 	int iVelocityGraphHeight = 10;
 	int iYAdditive = 0;
+	int iXAdditive = 0;
 	float flVelocityGraphCompression = 1.0f;
 	float Graphtrickness = 1.0f;
 	bool misc_showranks = false;

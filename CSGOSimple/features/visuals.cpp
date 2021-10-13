@@ -455,8 +455,8 @@ void Visuals::PaintMovementData()
 	int vecDisplaySizex, vecDisplaySizey;
 	g_EngineClient->GetScreenSize(vecDisplaySizex, vecDisplaySizey);
 
-	int iIdealY = vecDisplaySizey / 2 + 479 + g_Options.iYAdditive;
-	int iIdealX = vecDisplaySizex / 2 - 30;
+	int iIdealY = vecDisplaySizey / 2 + g_Options.iYAdditive;
+	int iIdealX = vecDisplaySizex / 2 + g_Options.iXAdditive;
 	if (g_LocalPlayer->m_nMoveType() == MOVETYPE_NOCLIP) {}
 	else if (g_Options.bVelocityGraph && g_LocalPlayer->IsAlive() && vecMovementData.size() > 2)
 	{

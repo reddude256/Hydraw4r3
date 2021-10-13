@@ -213,6 +213,7 @@ void Options::SetupMisc()
 	SetupValue(g_Options.bVelocityGraph, "Misc", "Velocity graph");
 	SetupColor(g_Options.colorgraph, "Graph color");
 	SetupValue(g_Options.iYAdditive, "Misc", "graph Y");
+	SetupValue(g_Options.iXAdditive, "Misc", "graph X");
 	SetupValue(g_Options.outline, "Misc", "Outline");
 	SetupValue(g_Options.lastjump, "Misc", "Last jump");
 	SetupValue(g_Options.lastjumpoutline, "Misc", "Last jump outline");
